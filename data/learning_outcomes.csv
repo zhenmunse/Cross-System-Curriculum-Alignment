@@ -1,0 +1,23 @@
+lo_id,module_id,system,description,difficulty_level,weight
+AL001_LO01,AL001,A-level,"Understand the principles of differentiation",2,0.3
+AL001_LO02,AL001,A-level,"Apply differentiation to find gradients and turning points",3,0.4
+AL001_LO03,AL001,A-level,"Understand and use the chain rule",3,0.3
+AL002_LO01,AL002,A-level,"Understand the concept of integration as the reverse of differentiation",2,0.2
+AL002_LO02,AL002,A-level,"Calculate definite and indefinite integrals",3,0.5
+AL002_LO03,AL002,A-level,"Use integration to find the area under a curve",4,0.3
+AL003_LO01,AL003,A-level,"Work with vectors in 2D and 3D",2,0.4
+AL003_LO02,AL003,A-level,"Calculate the scalar product of two vectors",3,0.6
+AP001_LO01,AP001,AP,"Explore limits of functions and continuity",2,0.4
+AP001_LO02,AP001,AP,"Define the derivative of a function and use it to solve problems",3,0.6
+AP002_LO01,AP002,AP,"Understand the meaning of the definite integral as a limit of Riemann sums",3,0.5
+AP002_LO02,AP002,AP,"Apply the Fundamental Theorem of Calculus",4,0.5
+AP003_LO01,AP003,AP,"Analyze vector-valued functions",3,0.5
+AP003_LO02,AP003,AP,"Solve problems involving motion in a plane",4,0.5
+UN001_LO01,UN001,University,"Master the formal definition of limits and continuity (epsilon-delta)",3,0.3
+UN001_LO02,UN001,University,"Compute derivatives of elementary and composite functions",2,0.3
+UN001_LO03,UN001,University,"Apply derivatives to optimization and related rates problems",4,0.4
+UN002_LO01,UN002,University,"Define the Riemann integral and its properties",3,0.4
+UN002_LO02,UN002,University,"Evaluate integrals using various techniques, including substitution and integration by parts",4,0.6
+UN003_LO01,UN003,University,"Perform vector operations, including dot and cross products",2,0.2
+UN003_LO02,UN003,University,"Analyze curves and surfaces in 3D space using vector calculus",4,0.5
+UN003_LO03,UN003,University,"Understand and apply Green's, Stokes', and Divergence theorems",4,0.3
