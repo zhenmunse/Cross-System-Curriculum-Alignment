@@ -35,7 +35,14 @@ def main():
 
         # 4. 执行映射算法
         logging.info(f"开始执行从 '{args.source_system}' 到 '{args.target_system}' 的映射...")
-        module_mappings = perform_mapping(los_df, modules_df, args.source_system, args.target_system)
+        module_mappings = perform_mapping(
+            los_df,
+            modules_df,
+            args.source_system,
+            args.target_system,
+            embed_method=getattr(args, 'embed_method', 'tfidf'),
+            llm_mode=getattr(args, 'llm_mode', 'none')
+        )
         logging.info("映射完成。")
 
         # 5. 计算指标

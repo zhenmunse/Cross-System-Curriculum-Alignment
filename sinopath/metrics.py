@@ -72,11 +72,13 @@ def _calculate_alignment_accuracy(non_gap_mappings: pd.DataFrame, los_df: pd.Dat
     weighted_mappings = non_gap_mappings.merge(source_module_weights.rename('source_module_weight'), left_on='source_module', right_index=True)
     
     if weighted_mappings['source_module_weight'].sum() == 0:
-        return weighted_mappings['confidence'].mean()
+        # pandas 的 mean 返回 numpy.floating，显式转为 Python float 以满足类型检查
+        return float(weighted_mappings['confidence'].mean())
         
     # 计算加权平均置信度
     weighted_accuracy = np.average(weighted_mappings['confidence'], weights=weighted_mappings['source_module_weight'])
-    return weighted_accuracy
+    # np.average 返回 numpy.floating，显式转为 Python float
+    return float(weighted_accuracy)
 
 def _calculate_gap_ratio(module_mappings: pd.DataFrame, target_modules: np.ndarray) -> float:
     """计算差距比例 (Gap Ratio)。"""

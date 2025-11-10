@@ -7,8 +7,16 @@ import pandas as pd
 import numpy as np
 from . import config
 from .text_embed import get_embedder
+from .llm_refine import refine_confidence, LLMMode
 
-def perform_mapping(los_df: pd.DataFrame, modules_df: pd.DataFrame, source_system: str, target_system: str):
+def perform_mapping(
+    los_df: pd.DataFrame,
+    modules_df: pd.DataFrame,
+    source_system: str,
+    target_system: str,
+    embed_method: str = 'tfidf',
+    llm_mode: LLMMode = 'none'
+):
     """
     执行跨体系学习成果和模块的映射。
 
@@ -29,7 +37,7 @@ def perform_mapping(los_df: pd.DataFrame, modules_df: pd.DataFrame, source_syste
         raise ValueError(f"源体系 '{source_system}' 或目标体系 '{target_system}' 在数据中没有学习成果。")
 
     # 2. 文本向量化
-    embedder = get_embedder(method='tfidf', random_state=config.RANDOM_STATE)
+    embedder = get_embedder(method=embed_method, random_state=config.RANDOM_STATE)
     all_descriptions = pd.concat([source_los['description'], target_los['description']]).tolist()
     all_vectors = embedder.fit_transform(all_descriptions) # 先 fit 整个语料库
     
@@ -97,7 +105,18 @@ def perform_mapping(los_df: pd.DataFrame, modules_df: pd.DataFrame, source_syste
         'confidence', 'mapping_type', 'pairs_count'
     ]]
 
-    return module_mappings.sort_values(by='confidence', ascending=False)
+    module_mappings = module_mappings.sort_values(by='confidence', ascending=False)
+
+    # 9. 可选 LLM/规则微调置信度
+    try:
+        refined = refine_confidence(module_mappings, mode=llm_mode)
+        # 重新分类映射类型（因置信度可能变化）
+        if llm_mode != 'none':
+            refined['mapping_type'] = _classify_mapping(refined['confidence'])
+        return refined
+    except Exception:
+        # 如果微调失败，回退到原始结果
+        return module_mappings
 
 def _classify_mapping(confidence_series: pd.Series) -> pd.Series:
     """根据置信度为映射关系分类。"""

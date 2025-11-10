@@ -3,7 +3,7 @@
 文本向量化模块。
 默认使用 TF-IDF 实现，并提供可插拔的接口，便于未来扩展到其他向量化方法（如 SBERT）。
 """
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer, HashingVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
 
@@ -56,6 +56,27 @@ class TfidfEmbedder(TextEmbedder):
         """
         return self.vectorizer.fit_transform(texts)
 
+class HashEmbedder(TextEmbedder):
+    """使用 HashingVectorizer 的无状态文本向量化实现。
+
+    适用场景：
+    - 数据量较大时减少内存占用
+    - 不需要反查词典（哈希不可逆）
+    - 希望快速实验另一种稀疏向量表示
+    """
+    def __init__(self, n_features: int = 2**16, random_state: int = 42):
+        super().__init__(random_state)
+        # HashingVectorizer 是无状态的，不需要 fit；stop_words 使用英文，alternate_sign=False 保持一致性
+        self.vectorizer = HashingVectorizer(
+            n_features=n_features,
+            stop_words='english',
+            alternate_sign=False
+        )
+
+    def fit_transform(self, texts):
+        # 对于 HashingVectorizer 直接 transform
+        return self.vectorizer.transform(texts)
+
 def get_embedder(method='tfidf', **kwargs) -> TextEmbedder:
     """
     工厂函数，用于获取指定类型的向量化器实例。
@@ -69,6 +90,8 @@ def get_embedder(method='tfidf', **kwargs) -> TextEmbedder:
     """
     if method == 'tfidf':
         return TfidfEmbedder(**kwargs)
+    if method == 'hash':
+        return HashEmbedder(**kwargs)
     # 未来可在此处添加其他向量化方法，例如：
     # elif method == 'sbert':
     #     return SbertEmbedder(**kwargs)

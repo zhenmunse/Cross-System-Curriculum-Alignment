@@ -43,6 +43,20 @@ def parse_arguments():
         help='输出结果的目录。'
     )
     parser.add_argument(
+        '--embed_method',
+        type=str,
+        default='tfidf',
+        choices=['tfidf', 'hash'],
+        help='文本向量化方法（本地）：tfidf 或 hash。默认 tfidf。'
+    )
+    parser.add_argument(
+        '--llm_mode',
+        type=str,
+        default='none',
+        choices=['none', 'rule', 'openai'],
+        help='是否启用 LLM/规则微调：none（默认）、rule、openai（占位）。'
+    )
+    parser.add_argument(
         '--threshold_exact',
         type=float,
         default=config.THRESHOLD_EXACT,
