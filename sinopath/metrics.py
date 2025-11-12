@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-指标计算模块 (对应论文 Section V-B)。
-负责计算 Coverage, Alignment Accuracy, Gap Ratio, Bridge Efficiency 四项指标。
-"""
+﻿# -*- coding: utf-8 -*-
+
+# 指标计算模块
+# 负责计算 Coverage, Alignment Accuracy, Gap Ratio, Bridge Efficiency 四项指标。
+
 import pandas as pd
 import numpy as np
 from . import config

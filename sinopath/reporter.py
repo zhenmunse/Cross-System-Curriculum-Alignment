@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""
-报告生成模块。
-负责将实验结果（映射表、指标、图表）和运行日志保存到文件。
-"""
+
+# 报告生成模块
+# 负责将实验结果（映射表、指标、图表）和运行日志保存到文件
+
 import os
 import logging
 import pandas as pd
@@ -37,7 +37,7 @@ def log_run_details(args, los_count, modules_count):
     logging.info("-" * 50)
 
 
-def save_results(mappings_df: pd.DataFrame, metrics_df: pd.DataFrame, out_dir: str, source_system: str, target_system: str):
+def save_results(mappings_df: pd.DataFrame, metrics_df: pd.DataFrame, out_dir: str, source_system: str, target_system: str, course_mappings_df: pd.DataFrame | None = None):
     """
     将映射结果和指标保存为 CSV 文件。
 
@@ -62,3 +62,10 @@ def save_results(mappings_df: pd.DataFrame, metrics_df: pd.DataFrame, out_dir: s
     metrics_path = os.path.join(out_dir, metrics_filename)
     metrics_df.to_csv(metrics_path, index=False)
     logging.info(f"指标结果已保存至: {metrics_path}")
+
+    # 3. 课程级映射（可选）
+    if course_mappings_df is not None and not course_mappings_df.empty:
+        course_filename = f"course_mappings_{source_system}_to_{target_system}.csv"
+        course_path = os.path.join(out_dir, course_filename)
+        course_mappings_df.to_csv(course_path, index=False)
+        logging.info(f"课程级映射结果已保存至: {course_path}")

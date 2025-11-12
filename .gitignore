@@ -56,3 +56,8 @@ dmypy.json
 
 # 操作系统
 Thumbs.db
+
+# Private Data
+data/ALEVEL_MATHS_LO.xlsx
+data/ALEVEL_MATHS_MODULES.xlsx
+data/Raw

@@ -3,6 +3,7 @@ numpy>=1.21.0,<2.0.0
 scikit-learn>=1.0.0,<2.0.0
 matplotlib>=3.5.0,<4.0.0
 python-dateutil>=2.8.0,<3.0.0
+openpyxl
 
 # 可选依赖（如需启用 --llm_mode openai 再安装）
 # openai>=1.0.0

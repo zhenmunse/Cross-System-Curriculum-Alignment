@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""
-文本向量化模块。
-默认使用 TF-IDF 实现，并提供可插拔的接口，便于未来扩展到其他向量化方法（如 SBERT）。
-"""
+
+# 文本向量化模块
+# 默认使用 TF-IDF 实现，并提供可插拔的接口，便于未来扩展到其他向量化方法（如 SBERT）
+
 from sklearn.feature_extraction.text import TfidfVectorizer, HashingVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
@@ -92,8 +92,6 @@ def get_embedder(method='tfidf', **kwargs) -> TextEmbedder:
         return TfidfEmbedder(**kwargs)
     if method == 'hash':
         return HashEmbedder(**kwargs)
-    # 未来可在此处添加其他向量化方法，例如：
-    # elif method == 'sbert':
-    #     return SbertEmbedder(**kwargs)
+    # 未来可在此处添加其他向量化方法
     else:
         raise ValueError(f"不支持的向量化方法: {method}")

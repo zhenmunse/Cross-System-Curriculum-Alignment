@@ -58,8 +58,7 @@ def refine_confidence(
         return df
 
     if mode == 'openai':
-        # 占位实现：避免在无网络/无密钥时出错，直接返回原值。
-        # 如需启用，请在此处实现基于模块名称/描述的调用，并对返回结果进行融合。
+        # 尚未实现
         return df
 
     return df

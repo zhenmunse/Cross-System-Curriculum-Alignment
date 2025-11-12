@@ -17,7 +17,8 @@
 | `module_id`        | `str`   | 该学习成果所属的模块 ID，关联 `modules.csv`。 | `AL001`        |
 | `system`           | `str`   | 该学习成果所属的教育体系名称。           | `A-level`      |
 | `description`      | `str`   | 对学习成果的具体文本描述。               | `Understand the principles of differentiation` |
-| `difficulty_level` | `int`   | 难度等级，范围从 0 到 4。                | `2`            |
+| `difficulty_level` | `int`   | 难度等级，范围 0~10：0=无需前置知识；10=高度专门无法在通识教学中完成。 | `3`            |
+| `module_weight`    | `float` | （可选）模块在所属课程中的权重。若缺失则按课程内均分并归一化为和=1。 | `0.25`         |
 | `weight`           | `float` | 该学习成果在所属模块中的重要性权重，0 到 1。 | `0.3`          |
 
 ### `modules.csv`
@@ -38,3 +39,4 @@
 -   **关联性**: `learning_outcomes.csv` 中的 `module_id` 必须能在 `modules.csv` 中找到对应的条目。
 -   **体系存在**: 在执行映射时，指定的 `source_system` 和 `target_system` 必须在两个文件中都存在。
 -   **数据量**: 每个待映射的体系中，至少包含一个模块，且每个模块至少包含一个学习成果。
+-   **模块权重**: 若提供 `module_weight`，请确保一个课程下所有模块权重和为 1；否则框架自动均分。
