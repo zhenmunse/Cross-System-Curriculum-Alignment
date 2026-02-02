@@ -1,42 +1,42 @@
-# 示例数据说明
+# Data Specifications
 
-本目录下的数据为 SinoPath 实验框架提供了一个最小可行示例，用于演示框架的基本功能。
+This directory contains the sample dataset used for the experimental validation of the framework. These files serve as a reference implementation to demonstrate the core functionality of the alignment pipeline.
 
-## 文件结构
+## File Structure
 
--   `learning_outcomes.csv`: 包含所有教育体系中的学习成果（Learning Outcomes, LOs）。
--   `modules.csv`: 包含所有教育体系中的课程模块（Modules）。
+- **learning_outcomes.csv**: Contains atomic Learning Outcomes (LOs) for all educational systems.
+- **modules.csv**: Defines the curriculum modules and their hierarchical relationships.
 
-## 数据模式
+## Data Schema
 
-### `learning_outcomes.csv`
+### learning_outcomes.csv
 
-| 字段名             | 类型    | 描述                                     | 示例值         |
-| ------------------ | ------- | ---------------------------------------- | -------------- |
-| `lo_id`            | `str`   | 学习成果的唯一标识符。                   | `AL001_LO01`   |
-| `module_id`        | `str`   | 该学习成果所属的模块 ID，关联 `modules.csv`。 | `AL001`        |
-| `system`           | `str`   | 该学习成果所属的教育体系名称。           | `A-level`      |
-| `description`      | `str`   | 对学习成果的具体文本描述。               | `Understand the principles of differentiation` |
-| `difficulty_level` | `int`   | 难度等级，范围 0~10：0=无需前置知识；10=高度专门无法在通识教学中完成。 | `3`            |
-| `module_weight`    | `float` | （可选）模块在所属课程中的权重。若缺失则按课程内均分并归一化为和=1。 | `0.25`         |
-| `weight`           | `float` | 该学习成果在所属模块中的重要性权重，0 到 1。 | `0.3`          |
+| **Field Name**       | **Type** | **Description**                                              | **Example**                                    |
+| -------------------- | -------- | ------------------------------------------------------------ | ---------------------------------------------- |
+| **lo_id**            | `str`    | Unique identifier for the learning outcome.                  | `AL001_LO01`                                   |
+| **module_id**        | `str`    | Foreign key linking the outcome to a specific entry in `modules.csv`. | `AL001`                                        |
+| **system**           | `str`    | Name of the educational system (e.g., A-level, University).  | `A-level`                                      |
+| **description**      | `str`    | Textual description of the learning outcome.                 | `Understand the principles of differentiation` |
+| **difficulty_level** | `int`    | Cognitive difficulty score (0–10) based on Bloom's Taxonomy. | `3`                                            |
+| **module_weight**    | `float`  | (Optional) Relative weight of the module within its parent course. | `0.25`                                         |
+| **weight**           | `float`  | Relative importance of the LO within its parent module (0.0 to 1.0). | `0.3`                                          |
 
-### `modules.csv`
+### modules.csv
 
-| 字段名        | 类型    | 描述                           | 示例值        |
-| ------------- | ------- | ------------------------------ | ------------- |
-| `module_id`   | `str`   | 模块的唯一标识符。             | `AL001`       |
-| `course_id`   | `str`   | 模块所属的课程 ID。            | `AL-MATH`     |
-| `module_name` | `str`   | 模块的名称。                   | `Calculus I`  |
-| `system`      | `str`   | 模块所属的教育体系名称。       | `A-level`     |
-| `topic_area`  | `str`   | 模块所属的主题领域（可选）。   | `Mathematics` |
+| **Field Name**  | **Type** | **Description**                                              | **Example**   |
+| --------------- | -------- | ------------------------------------------------------------ | ------------- |
+| **module_id**   | `str`    | Unique identifier for the curriculum module.                 | `AL001`       |
+| **course_id**   | `str`    | Identifier for the parent course or academic unit.           | `AL-MATH`     |
+| **module_name** | `str`    | Descriptive name of the module.                              | `Calculus I`  |
+| **system**      | `str`    | Name of the educational system.                              | `A-level`     |
+| **topic_area**  | `str`    | (Optional) Conceptual domain or disciplinary area of the module. | `Mathematics` |
 
-## 最小可行示例说明
+## Requirements for Custom Datasets
 
-为了保证框架能够顺利运行，您的自定义数据必须满足以下最小要求：
+To ensure successful execution and reproducibility of the alignment analysis, custom datasets must satisfy the following technical requirements:
 
--   **数据完整性**: 每个文件都不能有缺失的 `lo_id`, `module_id`, `system`, `description`。
--   **关联性**: `learning_outcomes.csv` 中的 `module_id` 必须能在 `modules.csv` 中找到对应的条目。
--   **体系存在**: 在执行映射时，指定的 `source_system` 和 `target_system` 必须在两个文件中都存在。
--   **数据量**: 每个待映射的体系中，至少包含一个模块，且每个模块至少包含一个学习成果。
--   **模块权重**: 若提供 `module_weight`，请确保一个课程下所有模块权重和为 1；否则框架自动均分。
+- **Relational Integrity**: Every `module_id` referenced in `learning_outcomes.csv` must possess a corresponding record in `modules.csv`.
+- **Data Completeness**: Essential fields including identifiers, system names, descriptions, and difficulty levels must be free of null or missing values.
+- **System Consistency**: The specified `source_system` and `target_system` used during execution must be present in the `system` columns of both data files.
+- **Curricular Density**: Each system targeted for mapping must contain at least one module, and each module must contain at least one learning outcome.
+- **Weight Normalization**: If the `module_weight` column is provided, the sum of weights for all modules within a single course should ideally equal 1.0. If these values are missing or invalid, the framework automatically applies a normalized uniform distribution across all modules.

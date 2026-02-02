@@ -37,7 +37,7 @@ env/
 *~
 .DS_Store
 
-# Results (实验结果输出目录)
+# Results
 results/
 *.log
 
