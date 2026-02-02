@@ -6,16 +6,16 @@ import sys
 import os
 import logging
 
-# 将项目根目录添加到 Python 路径中，以便导入 sinopath 包
+# 将项目根目录添加到 Python 路径中，以便导入 components 包
 # 这使得我们可以直接从顶层运行 `python main.py`
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
-from sinopath.cli import parse_arguments
-from sinopath.data_loader import load_data
-from sinopath.mapping import perform_mapping, perform_course_mapping, perform_aggregate_mapping
-from sinopath.metrics import calculate_all_metrics
-from sinopath.visualization import generate_visualizations, generate_course_visualizations, generate_aggregate_visualizations
-from sinopath.reporter import setup_logging, log_run_details, save_results
+from components.cli import parse_arguments
+from components.data_loader import load_data
+from components.mapping import perform_mapping, perform_course_mapping, perform_aggregate_mapping
+from components.metrics import calculate_all_metrics
+from components.visualization import generate_visualizations, generate_course_visualizations, generate_aggregate_visualizations
+from components.reporter import setup_logging, log_run_details, save_results
 import json
 
 def main():
